@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1rem;
+      place-items: center;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: #444;
+    }
+
+    main {
+      width: 100%;
+      text-align: center;
+    }
+
+    #game {
+      display: grid;
+      min-height: 70vh;
+      place-items: center;
+    }
+
+    svg {
+      display: block;
+      width: min(94vw, 1400px);
+      height: auto;
+      max-height: 70vh;
+      filter: invert(1);
+    }
+
+    .connection {
+      stroke: black;
+      stroke-width: 4;
+      stroke-linecap: round;
+      pointer-events: none;
+      animation: draw-line var(--draw-duration) linear both;
+    }
+
+    @keyframes draw-line {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .connection {
+        animation-duration: 0s;
+        animation-delay: 0s !important;
+      }
+    }
+
+    .title {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      top: 1%;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    .credits {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      bottom: 1%;
+      text-align: center;
+      font-size: 0.8rem;
+      line-height: 1.2;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="title">
+      <p>Artishock</p>
+    </div>
+    <div id="game" aria-live="polite">
+    </div>
+    <div class="credits">
+      <p>Nahele Belli<br>
+        Olivia Benedetti<br>
+        Daniele Falcone</p>
+    </div>
+  </main>
+
+  <script>
+    const game = document.querySelector("#game");
+    const svgUrl = "Punti_di_luce.svg";
+    const animationVelocity = 200;
+
+    fetch(svgUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Could not load the drawing (${response.status}).`);
+        }
+        return response.text();
+      })
+      .then(source => {
+        const document = new DOMParser().parseFromString(source, "image/svg+xml");
+        const svg = document.documentElement;
+        if (document.querySelector("parsererror") || svg.localName !== "svg") {
+          throw new Error("The SVG drawing could not be read.");
+        }
+
+        const circles = [...svg.querySelectorAll("circle")];
+        const labels = [...svg.querySelectorAll("text")];
+        const groups = new Map();
+
+        for (const [index, label] of labels.entries()) {
+          const match = label.textContent.trim().match(/^(\d+)([a-z])$/i);
+          const dot = circles[index];
+          if (!match || !dot) continue;
+
+          const [, number, letter] = match;
+          const key = letter.toUpperCase();
+          const point = {
+            number: Number(number),
+            dot
+          };
+          if (!groups.has(key)) groups.set(key, []);
+          groups.get(key).push(point);
+        }
+
+        const connections = document.createElementNS(svg.namespaceURI, "g");
+        connections.setAttribute("aria-hidden", "true");
+        svg.insertBefore(connections, svg.firstChild);
+
+        const connect = (start, end) => {
+          const line = document.createElementNS(svg.namespaceURI, "line");
+          const x1 = Number(start.dot.getAttribute("cx"));
+          const y1 = Number(start.dot.getAttribute("cy"));
+          const x2 = Number(end.dot.getAttribute("cx"));
+          const y2 = Number(end.dot.getAttribute("cy"));
+          const length = Math.hypot(x2 - x1, y2 - y1);
+          line.setAttribute("x1", x1);
+          line.setAttribute("y1", y1);
+          line.setAttribute("x2", x2);
+          line.setAttribute("y2", y2);
+          line.setAttribute("class", "connection");
+          line.style.strokeDasharray = length;
+          line.style.strokeDashoffset = length;
+          line.style.setProperty("--draw-duration", `${length / animationVelocity * 1000}ms`);
+          const finished = new Promise(resolve => {
+            line.addEventListener("animationend", resolve, {
+              once: true
+            });
+          });
+          connections.append(line);
+          return finished;
+        };
+
+        game.replaceChildren(svg);
+
+        const orderedGroups = [...groups.entries()]
+          .sort(([letterA], [letterB]) => letterA.localeCompare(letterB))
+          .map(([, points]) => points);
+
+        for (const points of orderedGroups) {
+          points.sort((a, b) => a.number - b.number);
+        }
+
+        let started = false;
+        window.document.addEventListener("pointerdown", async () => {
+          if (started) return;
+          started = true;
+          const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          const shuffledGroups = [...orderedGroups];
+          for (let index = shuffledGroups.length - 1; index > 0; index--) {
+            const randomIndex = Math.floor(Math.random() * (index + 1));
+            [shuffledGroups[index], shuffledGroups[randomIndex]] = [shuffledGroups[randomIndex], shuffledGroups[
+              index]];
+          }
+
+          await Promise.all(shuffledGroups.map(async points => {
+            const start = Math.floor(Math.random() * points.length);
+            const direction = Math.random() < 0.5 ? 1 : -1;
+            for (let index = 0; index < points.length; index++) {
+              const
+                current = (start + direction * index + points.length) % points.length;
+              const next = (current + direction +
+                points.length) % points.length;
+              const finished = connect(points[current], points[next]);
+              if (!reducedMotion) await
+              finished;
+            }
+          }));
+        });
+      }).catch(error => {
+        const message = document.querySelector("#message");
+        message.textContent = error.message;
+      });
+  </script>
+</body>
+
+</html>
