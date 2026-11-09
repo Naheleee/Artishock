@@ -48,6 +48,10 @@
     }
 
     @keyframes draw-line {
+      from {
+        stroke-dashoffset: var(--draw-distance);
+      }
+
       to {
         stroke-dashoffset: 0;
       }
@@ -151,6 +155,7 @@
           line.setAttribute("class", "connection");
           line.style.strokeDasharray = length;
           line.style.strokeDashoffset = length;
+          line.style.setProperty("--draw-distance", length);
           line.style.setProperty("--draw-duration", `${length / animationVelocity * 1000}ms`);
           const finished = new Promise(resolve => {
             line.addEventListener("animationend", resolve, {
