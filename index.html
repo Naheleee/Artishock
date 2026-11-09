@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
     }
@@ -16,10 +20,14 @@
 
     body {
       display: grid;
-      min-height: 100vh;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
       margin: 0;
       padding: 1rem;
-      place-items: center;
+      overflow: hidden;
+      overscroll-behavior: none;
+      place-items: stretch;
       font-family: Arial, sans-serif;
       background: black;
       color: #666;
@@ -27,12 +35,14 @@
 
     main {
       width: 100%;
+      height: 100%;
       text-align: center;
     }
 
     #game {
       display: grid;
-      min-height: 70vh;
+      width: 100%;
+      height: 100%;
       place-items: center;
     }
 
@@ -41,6 +51,7 @@
       width: min(94vw, 1400px);
       height: auto;
       max-height: 70vh;
+      max-height: 70dvh;
       filter: invert(1);
     }
 
