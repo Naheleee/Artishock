@@ -5,6 +5,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    @font-face {
+      font-family: "Ronzino-bold";
+      src: local("Ronzino"), local("Ronzino-bold"), url(../Artishock/Ronzino_Font/Ronzino-Bold.otf) format("otf");
+    }
+
+    @font-face {
+      font-family: "Ronzino-medium";
+      src: local("Ronzino"), local("Ronzino-medium"), url(../Artishock/Ronzino_Font/Ronzino-Medium.otf) format("otf");
+    }
+
+    @font-face {
+      font-family: "Ronzino-regular";
+      src: local("Ronzino"), local("Ronzino-regular"), url(../Artishock/Ronzino_Font/Ronzino-Regular.otf) format("otf");
+    }
+
     html {
       width: 100%;
       height: 100%;
@@ -28,7 +43,6 @@
       overflow: hidden;
       overscroll-behavior: none;
       place-items: stretch;
-      font-family: Arial, sans-serif;
       background: black;
       color: #666;
     }
@@ -60,7 +74,17 @@
       stroke-width: 4;
       stroke-linecap: round;
       pointer-events: none;
-      animation: draw-line var(--draw-duration) linear both;
+      animation: draw-line var(--draw-duration) linear both, fade-in 1000ms ease-out both;
+    }
+
+    .shape {
+      fill: transparent;
+      transition: fill 2s cubic-bezier(0.65, 0, 0.35, 1);
+      pointer-events: none;
+    }
+
+    .shapes-filled .shape {
+      fill: black;
     }
 
     @keyframes draw-line {
@@ -73,30 +97,113 @@
       }
     }
 
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .connection {
         animation-duration: 0s;
         animation-delay: 0s !important;
       }
+
+      .shape {
+        transition-duration: 0s;
+      }
     }
 
     .title {
+      font-family: "Ronzino-bold", sans-serif;
       position: absolute;
       left: 0;
       width: 100%;
       top: 1%;
       text-align: center;
-      font-size: 24px;
+      font-size: 30px;
     }
 
     .credits {
+      font-family: "Ronzino-regular", sans-serif;
       position: absolute;
       left: 0;
       width: 100%;
       bottom: 1%;
       text-align: center;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.2;
+    }
+
+    .instruction {
+      font-family: "Ronzino-regular", sans-serif;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      isolation: isolate;
+      margin: 0;
+      padding: 2rem 1.2rem;
+      background: black;
+      color: white;
+      font-size: 16px;
+      white-space: nowrap;
+      pointer-events: auto;
+      transition: opacity 1000ms;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .instruction {
+        cursor: pointer;
+      }
+    }
+
+    .instruction::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: -50% -50%;
+      background: radial-gradient(ellipse at center, #000 0%, #000 30%, transparent 100%);
+      pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+      .instruction::before {
+        inset: clamp(-14rem, -12vh, -7rem) clamp(-28rem, -24vw, -12rem);
+      }
+    }
+
+    .instruction::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      border: 1px solid #fff;
+      background-color: black;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .instruction .tap {
+      display: none;
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .instruction .click {
+        display: none;
+      }
+
+      .instruction .tap {
+        display: inline;
+      }
+    }
+
+    .instruction.hidden {
+      opacity: 0;
     }
   </style>
 </head>
@@ -108,15 +215,18 @@
     </div>
     <div id="game" aria-live="polite">
     </div>
+    <p class="instruction" id="instruction">
+      <span class="click">Click to discover!</span>
+      <span class="tap">Tap to discover!</span>
+    </p>
     <div class="credits">
-      <p>Nahele Belli<br>
-        Olivia Benedetti<br>
-        Daniele Falcone</p>
+      <p>Olivia Benedetti<br>Nahele Belli<br>Daniele Falcone</p>
     </div>
   </main>
 
   <script>
     const game = document.querySelector("#game");
+    const instruction = document.querySelector("#instruction");
     const svgUrl = "Punti_di_luce.svg";
     const animationVelocity = 200;
 
@@ -147,6 +257,7 @@
           const key = letter.toUpperCase();
           const point = {
             number: Number(number),
+            group: key,
             dot
           };
           if (!groups.has(key)) groups.set(key, []);
@@ -192,10 +303,22 @@
           points.sort((a, b) => a.number - b.number);
         }
 
+        const shapes = document.createElementNS(svg.namespaceURI, "g");
+        shapes.setAttribute("aria-hidden", "true");
+        const shape = document.createElementNS(svg.namespaceURI, "path");
+        shape.setAttribute("class", "shape");
+        shape.setAttribute("fill-rule", "evenodd");
+        shape.setAttribute("d", orderedGroups.map(points =>
+          `M${points.map(({ dot }) =>
+            `${dot.getAttribute("cx")},${dot.getAttribute("cy")}`).join(" L")}Z`).join(""));
+        shapes.append(shape);
+        svg.insertBefore(shapes, connections);
+
         let started = false;
-        window.document.addEventListener("pointerdown", async () => {
+        const startDrawing = async () => {
           if (started) return;
           started = true;
+          instruction.classList.add("hidden");
           const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
           const shuffledGroups = [...orderedGroups];
           for (let index = shuffledGroups.length - 1; index > 0; index--) {
@@ -217,7 +340,11 @@
               finished;
             }
           }));
-        });
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          svg.classList.add("shapes-filled");
+        };
+        svg.addEventListener("pointerdown", startDrawing);
+        instruction.addEventListener("pointerdown", startDrawing);
       }).catch(error => {
         const message = document.querySelector("#message");
         message.textContent = error.message;
