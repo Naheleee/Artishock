@@ -1,0 +1,329 @@
+/* Font Ronzino */
+
+@font-face {
+    font-family: 'Ronzino-Bold';
+    src: url('../../Fonts/Ronzino/Ronzino-Bold.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'Ronzino-BoldOblique';
+    src: url('../../Fonts/Ronzino/Ronzino-BoldOblique.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'Ronzino-Medium';
+    src: url('../../Fonts/Ronzino/Ronzino-Medium.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'Ronzino-MediumOblique';
+    src: url('../../Fonts/Ronzino/Ronzino-MediumOblique.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'Ronzino-Oblique';
+    src: url('../../Fonts/Ronzino/Ronzino-Oblique.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'Ronzino-Regular';
+    src: url('../../Fonts/Ronzino/Ronzino-Regular.woff2') format('woff2'),
+}
+
+@font-face {
+    font-family: 'InterVariable';
+    src: url('../../Fonts/Inter/Inter_18pt-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* Sitoweb Artishock */
+
+:root {
+    --color-pink: #ff3eb5;
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-grey: #505050;
+    --color-lightgrey: grey;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+}
+
+html::-webkit-scrollbar {
+    width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+    background: var(--color-black);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+    display: flex;
+}
+
+main {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 30px;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background-color: var(--color-black);
+}
+
+
+.col-1 {
+    grid-column: span 1;
+}
+
+.col-2 {
+    grid-column: span 2;
+}
+
+.col-3 {
+    grid-column: span 3;
+}
+
+.col-4 {
+    grid-column: span 4;
+}
+
+.col-5 {
+    grid-column: span 5;
+}
+
+.col-6 {
+    grid-column: span 6;
+}
+
+.col-7 {
+    grid-column: span 7;
+}
+
+.col-8 {
+    grid-column: span 8;
+}
+
+.col-9 {
+    grid-column: span 9;
+}
+
+.col-10 {
+    grid-column: span 10;
+}
+
+.col-11 {
+    grid-column: span 11;
+}
+
+.col-12 {
+    grid-column: span 12;
+}
+
+.columns {
+    position: absolute;
+    inset: 30px;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 20px;
+    pointer-events: none;
+}
+
+.columns span {
+    border: 1px solid var(--color-pink);
+    z-index: 1;
+}
+
+
+
+
+
+
+img.immaginearticolo {
+    width: 100%;
+    aspect-ratio: 3/1;
+    object-fit: cover;
+    object-position: center;
+    grid-column: span 12;
+    z-index: 0;
+    background-color: var(--color-grey);
+}
+
+h2.titolo {
+    font-family: 'Ronzino-Medium', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+}
+
+h3.sottotitolo {
+    font-family: 'Ronzino-Medium', sans-serif;
+    font-size: clamp(1rem, 5vw, 2rem);
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+}
+
+p.testo {
+    font-family: 'Ronzino-Regular', sans-serif;
+    font-size: clamp(0.5rem, 5vw, 1rem);
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.1;
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+}
+
+p.didascalia {
+    font-family: 'Ronzino-Regular', sans-serif;
+    font-size: clamp(0.5rem, 5vw, 1rem);
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.1;
+    color: var(--color-lightgrey);
+    margin: 0;
+    padding: 0;
+}
+
+.crocinosx {
+    height: 30px;
+    width: 30px;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 15px;
+    justify-self: end;
+    padding: 0;
+    margin: 0;
+}
+
+.crocinodx {
+    height: 30px;
+    width: 30px;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    right: 15px;
+    justify-self: end;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 999px) {
+    main {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+        padding: 20px;
+    }
+
+    .columns {
+        inset: 20px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .columns span:nth-child(n + 7) {
+        display: none;
+    }
+
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12 {
+        grid-column: span 6;
+    }
+
+    h2.titolo {
+    grid-column: span 12;
+    }
+
+    h3.sottotitolo {
+    grid-column: span 12;
+    }
+
+    p.testo {
+    grid-column: span 12;
+    }
+
+    p.didascalia {
+    grid-column: span 12;
+    }
+
+    .crocinosx {
+        left: 5px;
+    }
+
+    .crocinodx {
+        right: 5px;
+    }
+}

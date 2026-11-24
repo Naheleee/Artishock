@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>Artishock</title>
+</head>
+
+<body>
+    <main>
+        <nav aria-label="Main navigation">
+            <ul class="nav">
+                <li><a class="nav-link" href="#section1-magazine"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Magazine</a></li>
+                <li><a class="nav-link" href="#section2-editions"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Editions</a></li>
+                <li><a class="nav-link" href="#section3-articles"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Articles</a></li>
+                <li><a class="nav-link" href="#section4-curators"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Curators</a></li>
+                <li><a class="nav-link" href="#section5-shop"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Shop</a></li>
+            </ul>
+        </nav>
+
+        <img src="Assets/Images/crocino.png" alt="crocinosx" class="crocinosx" aria-hidden="true">
+        <img src="Assets/Images/crocino.png" alt="crocinodx" class="crocinodx" aria-hidden="true">
+
+        <section class="sections section1" id="section1-magazine">
+            <div class="columns" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <h3 class="col-3 introduzione">Artishock! Magazine SUPSI DACD<br>
+                <div class="flex">
+                    <span class="arrow-detail-1" aria-hidden="true">→</span><br>
+                    <span class="arrow-detail-2" aria-hidden="true">→</span>
+                </div>
+            </h3>
+            <h3 class="col-6 descrizionemagazine">A collaborative publishing platform bridging students and faculty.
+                Working as a unified creative team, we design, edit, and experiment around targeted themes, exploring
+                contemporary visual culture through collective editorial practice.</h3>
+
+            <div class="col-12 bottom-section1">
+                <img src="Assets/Images/rel_symbol_1.png" alt="rel symbol 1" class="bottom-section-symbol-circle" aria-hidden="true">
+                <img src="Assets/Images/rel_symbol_2.png" alt="rel symbol 2" class="bottom-section-symbol-circle" aria-hidden="true">
+                <img src="Assets/Images/rel_symbol_3.png" alt="rel symbol 3" class="bottom-section-symbol-circle" aria-hidden="true">
+                <img src="Assets/Images/stu_symbol_1.png" alt="stu symbol 1" class="bottom-section-symbol-square" aria-hidden="true">
+                <img src="Assets/Images/stu_symbol_2.png" alt="stu symbol 2" class="bottom-section-symbol-square" aria-hidden="true">
+                <img src="Assets/Images/stu_symbol_3.png" alt="stu symbol 3" class="bottom-section-symbol-square" aria-hidden="true">
+            </div>
+
+        </section>
+
+        <section class="sections section2" id="section2-editions">
+            <div class="columns" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </section>
+
+        <section class="sections section3" id="section3-articles">
+            <div class="columns" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </section>
+
+        <section class="sections section4" id="section4-curators">
+            <div class="columns" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </section>
+
+        <section class="sections section5" id="section5-shop">
+            <div class="columns" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const navLinks = document.querySelectorAll(".nav-link");
+        const sections = document.querySelectorAll(".sections");
+
+        const updateActiveLink = () => {
+            const viewportCenter = window.innerHeight / 2;
+            const activeSection = Array.from(sections).find((section) => {
+                const {
+                    top,
+                    bottom
+                } = section.getBoundingClientRect();
+                return top <= viewportCenter && bottom > viewportCenter;
+            });
+
+            if (!activeSection) return;
+
+            navLinks.forEach((link) => {
+                const isActive = link.hash === `#${activeSection.id}`;
+                link.classList.toggle("is-active", isActive);
+                if (isActive) {
+                    link.setAttribute("aria-current", "location");
+                } else {
+                    link.removeAttribute("aria-current");
+                }
+            });
+        };
+
+        window.addEventListener("scroll", updateActiveLink, {
+            passive: true
+        });
+        window.addEventListener("resize", updateActiveLink);
+        updateActiveLink();
+    </script>
+</body>
+
+</html>
