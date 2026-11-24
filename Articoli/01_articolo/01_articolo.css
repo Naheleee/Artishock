@@ -83,8 +83,8 @@ main {
     min-height: 100vh;
     box-sizing: border-box;
     background-color: var(--color-black);
+    font-family: 'Ronzino-Regular', sans-serif;
 }
-
 
 .col-1 {
     grid-column: span 1;
@@ -141,11 +141,12 @@ main {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 20px;
     pointer-events: none;
+    z-index: 0;
+
 }
 
 .columns span {
-    border: 1px solid var(--color-pink);
-    z-index: 1;
+    border: 1px solid #ffffff00;
 }
 
 
@@ -174,37 +175,129 @@ h2.titolo {
     padding: 0;
 }
 
-h3.sottotitolo {
-    font-family: 'Ronzino-Medium', sans-serif;
-    font-size: clamp(1rem, 5vw, 2rem);
+p.testo-ita {
+    font-family: 'Ronzino-Regular', sans-serif;
+    font-size: clamp(0.5rem, 5vw, 1rem);
     font-weight: normal;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
+    line-height: 1.1;
+    color: var(--color-white);
+    margin: 0;
+    padding: 0;
+}
+
+p.testo-ing {
+    font-family: 'Ronzino-Regular', sans-serif;
+    font-size: clamp(0.5rem, 5vw, 1rem);
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.1;
+    color: var(--color-grey);
+    margin: 0;
+    padding: 0;
+}
+
+.bottom-section {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 20px;
+    align-items: center;
+    align-self: end;
+    grid-column: span 12;
+    font-family: 'Ronzino-Regular', sans-serif;
+    font-size: clamp(0.5rem, 5vw, 1rem);
+    font-weight: normal;
+    letter-spacing: 0;
+    color: var(--color-pink);
+}
+
+.nomistudenti {
+    gap: 15px;
+    display: flex;
+    flex: 4;
+    grid-column: span 5;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.singolonome{
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+
+.navigazione {
+    display: grid;
+    grid-template-columns: max-content repeat(6, minmax(0, 1fr)) max-content;
+    gap: 0;
+    grid-column: span 6;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar {
+    height: 15px;
+    display: grid;
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+    grid-column: 2 / span 6;
+    gap: 0;
+    align-self: center;
+    min-width: 0;
+    padding: 0;
+    margin: 0 20px;
+    box-sizing: border-box;
+}
+
+.navbar span {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    border: 2px solid var(--color-pink);
+    box-sizing: border-box;
+}
+
+.navbar span + span {
+    border-left: 0;
+}
+
+.previous-article-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    grid-column: 1 / span 1;
+    justify-self: end;
+    padding: 0;
+    margin: 0;
+}
+
+.next-article-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    grid-column: 8 / span 1;
+    justify-self: end;
+    padding: 0;
+    margin: 0;
+}
+
+.paginearticolo {
+    text-align: end;
+    margin: 0;
+    padding: 0;
+}
+
+.navigazione .navarrow {
+    font-family: 'InterVariable', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
     line-height: 1;
-    color: var(--color-white);
-    margin: 0;
-    padding: 0;
-}
-
-p.testo {
-    font-family: 'Ronzino-Regular', sans-serif;
-    font-size: clamp(0.5rem, 5vw, 1rem);
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.1;
-    color: var(--color-white);
-    margin: 0;
-    padding: 0;
-}
-
-p.didascalia {
-    font-family: 'Ronzino-Regular', sans-serif;
-    font-size: clamp(0.5rem, 5vw, 1rem);
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.1;
-    color: var(--color-lightgrey);
-    margin: 0;
-    padding: 0;
+    text-decoration: none;
+    font-feature-settings: 'calt'1, 'liga'1;
+    letter-spacing: normal;
+    font-variant-ligatures: contextual common-ligatures;
 }
 
 .crocinosx {
@@ -304,26 +397,38 @@ p.didascalia {
     }
 
     h2.titolo {
-    grid-column: span 12;
+        grid-column: span 12;
     }
 
-    h3.sottotitolo {
-    grid-column: span 12;
+    p.testo-ita {
+        grid-column: span 12;
     }
 
-    p.testo {
-    grid-column: span 12;
+    p.testo-ing {
+        grid-column: span 12;
     }
 
     p.didascalia {
-    grid-column: span 12;
+        grid-column: span 12;
     }
 
     .crocinosx {
-        left: 5px;
+        height: 20px;
+        width: 20px;
+        left: 10px;
     }
 
     .crocinodx {
-        right: 5px;
+        height: 20px;
+        width: 20px;
+        right: 10px;
+    }
+
+    .bottom-section {
+        grid-column: span 6;
+    }
+
+    .navbar {
+        grid-column: 2 / span 6;
     }
 }

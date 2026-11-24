@@ -265,7 +265,7 @@ ul.nav {
 }
 
 .arrow-detail-1 {
-    rotate: -180deg;
+    rotate: -45deg;
     background-color: var(--color-white);
     color: var(--color-black);
     display: inline-flex;
@@ -288,7 +288,7 @@ ul.nav {
 }
 
 .arrow-detail-2 {
-    rotate: -180deg;
+    rotate: 90deg;
     background-color: var(--color-pink);
     color: var(--color-black);
     display: inline-flex;
