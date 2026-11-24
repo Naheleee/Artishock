@@ -12,11 +12,16 @@
     <main>
         <nav aria-label="Main navigation">
             <ul class="nav">
-                <li><a class="nav-link" href="#section1-magazine"><span class="interlocalarrow" aria-hidden="true">→</span>Magazine</a></li>
-                <li><a class="nav-link" href="#section2-editions"><span class="interlocalarrow" aria-hidden="true">→</span>Editions</a></li>
-                <li><a class="nav-link" href="#section3-articles"><span class="interlocalarrow" aria-hidden="true">→</span>Articles</a></li>
-                <li><a class="nav-link" href="#section4-curators"><span class="interlocalarrow" aria-hidden="true">→</span>Curators</a></li>
-                <li><a class="nav-link" href="#section5-shop"><span class="interlocalarrow" aria-hidden="true">→</span>Shop</a></li>
+                <li><a class="nav-link" href="#section1-magazine"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Magazine</a></li>
+                <li><a class="nav-link" href="#section2-articles"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Articles</a></li>
+                <li><a class="nav-link" href="#section3-editions"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Editions</a></li>
+                <li><a class="nav-link" href="#section4-curators"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Curators</a></li>
+                <li><a class="nav-link" href="#section5-shop"><span class="interlocalarrow"
+                            aria-hidden="true">→</span>Shop</a></li>
             </ul>
         </nav>
 
@@ -29,7 +34,7 @@
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>
             </div>
-            <h3 class="col-3 introduzione">Artishock! Magazine SUPSI DACD<br>
+            <h3 class="col-3 introduzione">Artishock! Magazine SUPSI CV<br>
                 <div class="flex">
                     <span class="arrow-detail-1" aria-hidden="true">→</span><br>
                     <span class="arrow-detail-2" aria-hidden="true">→</span>
@@ -40,17 +45,39 @@
                 contemporary visual culture through collective editorial practice.</h3>
 
             <div class="col-12 bottom-section1">
-                <img src="Assets/Images/rel_symbol_1.png" alt="rel symbol 1" class="bottom-section-symbol-circle" aria-hidden="true">
-                <img src="Assets/Images/rel_symbol_2.png" alt="rel symbol 2" class="bottom-section-symbol-circle" aria-hidden="true">
-                <img src="Assets/Images/rel_symbol_3.png" alt="rel symbol 3" class="bottom-section-symbol-circle" aria-hidden="true">
-                <img src="Assets/Images/stu_symbol_1.png" alt="stu symbol 1" class="bottom-section-symbol-square" aria-hidden="true">
-                <img src="Assets/Images/stu_symbol_2.png" alt="stu symbol 2" class="bottom-section-symbol-square" aria-hidden="true">
-                <img src="Assets/Images/stu_symbol_3.png" alt="stu symbol 3" class="bottom-section-symbol-square" aria-hidden="true">
+                <div class="simboli">
+                    <img src="Assets/Images/rel_symbol_1.png" alt="rel symbol 1" class="bottom-section-symbol-circle"
+                        aria-hidden="true">
+                    <img src="Assets/Images/rel_symbol_2.png" alt="rel symbol 2" class="bottom-section-symbol-circle"
+                        aria-hidden="true">
+                    <img src="Assets/Images/rel_symbol_3.png" alt="stu symbol 3" class="bottom-section-symbol-circle"
+                        aria-hidden="true">
+                    <img src="Assets/Images/stu_symbol_1.png" alt="stu symbol 1" class="bottom-section-symbol-square"
+                        aria-hidden="true">
+                    <img src="Assets/Images/stu_symbol_2.png" alt="stu symbol 2" class="bottom-section-symbol-square"
+                        aria-hidden="true">
+                    <img src="Assets/Images/stu_symbol_3.png" alt="rel symbol 3" class="bottom-section-symbol-square"
+                        aria-hidden="true">
+                </div>
+                <div class="slider-box">
+                    <label class="slider-text" for="magazine-slider">Rotate</label>
+                    <input class="slider" id="magazine-slider" type="range" min="0" max="100" value="50">
+                </div>
+
+                <label class="edition-label">Edition 27</label>
+
+                <div class="gradient-symbol1" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="gradient-symbol2">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span><span></span></div>
             </div>
 
         </section>
 
-        <section class="sections section2" id="section2-editions">
+        <section class="sections section2" id="section2-articles">
             <div class="columns" aria-hidden="true">
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>
@@ -58,7 +85,7 @@
             </div>
         </section>
 
-        <section class="sections section3" id="section3-articles">
+        <section class="sections section3" id="section3-editions">
             <div class="columns" aria-hidden="true">
                 <span></span><span></span><span></span><span></span>
                 <span></span><span></span><span></span><span></span>
@@ -83,39 +110,7 @@
         </section>
     </main>
 
-    <script>
-        const navLinks = document.querySelectorAll(".nav-link");
-        const sections = document.querySelectorAll(".sections");
-
-        const updateActiveLink = () => {
-            const viewportCenter = window.innerHeight / 2;
-            const activeSection = Array.from(sections).find((section) => {
-                const {
-                    top,
-                    bottom
-                } = section.getBoundingClientRect();
-                return top <= viewportCenter && bottom > viewportCenter;
-            });
-
-            if (!activeSection) return;
-
-            navLinks.forEach((link) => {
-                const isActive = link.hash === `#${activeSection.id}`;
-                link.classList.toggle("is-active", isActive);
-                if (isActive) {
-                    link.setAttribute("aria-current", "location");
-                } else {
-                    link.removeAttribute("aria-current");
-                }
-            });
-        };
-
-        window.addEventListener("scroll", updateActiveLink, {
-            passive: true
-        });
-        window.addEventListener("resize", updateActiveLink);
-        updateActiveLink();
-    </script>
+    <script src="Javascript/script.js"></script>
 </body>
 
 </html>
